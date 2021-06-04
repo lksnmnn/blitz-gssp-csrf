@@ -1,5 +1,5 @@
 import { Suspense } from "react"
-import { Link, BlitzPage, useMutation, Routes } from "blitz"
+import { Link, BlitzPage, useMutation, Routes, getSession } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import logout from "app/auth/mutations/logout"
@@ -46,6 +46,15 @@ const UserInfo = () => {
         </Link>
       </>
     )
+  }
+}
+
+export const getServerSideProps = async ({ req, res }) => {
+  const session = await getSession(req, res)
+  session.$setPublicData({ role: "ADMIN" })
+
+  return {
+    props: {},
   }
 }
 
